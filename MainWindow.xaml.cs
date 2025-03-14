@@ -62,7 +62,7 @@ namespace GifEditor
 
                 bool optimizePalette = OptimizePaletteCheckBox.IsChecked ?? false;
                 GifService.OptimizeGif(inputGifPath, outputGifPath, frameRate, optimizePalette);
-                MessageBox.Show("GIFの最適化が完了しました！");
+                MessageBox.Show("FPS,カラーパレット最適化が完了しました！");
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace GifEditor
                 }
 
                 GifService.CompressGif(inputGifPath, outputGifPath);
-                MessageBox.Show("GIFの圧縮が完了しました！");
+                MessageBox.Show("GIFの最適化が完了しました！");
             }
             catch (Exception ex)
             {
