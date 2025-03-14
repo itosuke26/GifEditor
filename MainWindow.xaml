@@ -18,8 +18,8 @@
 
                     <CheckBox x:Name="OptimizePaletteCheckBox" Content="カラーパレット最適化" Margin="5"/>
 
-                    <Button Content="GIFを最適化" Click="OnOptimizeGifClicked" Margin="5"/>
-                    <Button Content="GIFを圧縮" Click="OnCompressGifClicked" Margin="5"/>
+                    <Button Content="FPS,カラーパレット最適化" Click="OnOptimizeGifClicked" Margin="5"/>
+                    <Button Content="GIFを最適化" Click="OnCompressGifClicked" Margin="5"/>
                     <Button Content="GIFを切り抜く" Click="OnCropGifClicked" Margin="5"/>
 
                     <TextBlock Text="X 座標:" Margin="5"/>
