@@ -12,10 +12,6 @@ GIF編集ツールは、動画ファイル（MKV, MP4）からGIFアニメーションを作成・編集するた
 * GIFアニメーションのファイルサイズ削減
 * GIFアニメーションの画像ファイルへの出力
 
-## インストール
-
-なし
-
 ## 必要な環境
 
 * [.NET Desktop Runtime 9.0](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
@@ -62,5 +58,3 @@ OBS Studioで録画したファイルをGIFアニメーションに変換し、UnityRoomにアップロード
 ## 開発者
 
 itosuke26
-
-## 連絡先
