@@ -29,6 +29,8 @@ namespace GifEditor
             if (openFileDialog.ShowDialog() == true)
             {
                 inputGifPath = openFileDialog.FileName;
+                GifInputPath.Text = inputGifPath; // 選択したGIFファイルのパスをテキストボックスに表示
+
                 string directory = Path.GetDirectoryName(inputGifPath);
                 string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputGifPath);
                 outputGifPath = Path.Combine(directory, $"{filenameWithoutExt}_compressed.gif");
@@ -169,6 +171,8 @@ namespace GifEditor
             if (openFileDialog.ShowDialog() == true)
             {
                 inputVideoPath = openFileDialog.FileName;
+                VideoInputPath.Text = inputVideoPath; // 選択した動画ファイルのパスをテキストボックスに表示
+
                 string directory = Path.GetDirectoryName(inputVideoPath);
                 string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputVideoPath);
 
