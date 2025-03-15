@@ -19,9 +19,6 @@ namespace GifEditor
             InitializeComponent();
         }
 
-        /// <summary>
-        /// GIFファイルを選択（入力パスを設定）
-        /// </summary>
         private void OnSelectGifFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
@@ -34,16 +31,12 @@ namespace GifEditor
                 inputGifPath = openFileDialog.FileName;
                 GifInputPath.Text = inputGifPath;
 
-                // 出力ファイルを自動で設定（例: "input.gif" → "input_optimized.gif"）
                 string directory = Path.GetDirectoryName(inputGifPath);
                 string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputGifPath);
                 outputGifPath = Path.Combine(directory, $"{filenameWithoutExt}_optimized.gif");
             }
         }
 
-        /// <summary>
-        /// GIFの最適化
-        /// </summary>
         private void OnOptimizeGifClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -70,9 +63,6 @@ namespace GifEditor
             }
         }
 
-        /// <summary>
-        /// GIFの圧縮
-        /// </summary>
         private void OnCompressGifClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -94,10 +84,9 @@ namespace GifEditor
 
         private void OnCompressGifToTargetSizeClicked(object sender, RoutedEventArgs e)
         {
-            // 圧縮処理の実装
-            string inputPath = GifInputPath.Text; // 入力ファイルパス
-            string outputPath = "compressed_output.gif"; // 出力ファイルパス
-            long targetSizeKB = 512; // 目標サイズ (512KB)
+            string inputPath = GifInputPath.Text;
+            string outputPath = Path.Combine(Path.GetDirectoryName(inputPath), "compressed_output.gif");
+            long targetSizeKB = 512;
 
             try
             {
@@ -110,9 +99,6 @@ namespace GifEditor
             }
         }
 
-        /// <summary>
-        /// GIFの切り抜き
-        /// </summary>
         private void OnCropGifClicked(object sender, RoutedEventArgs e)
         {
             try
@@ -142,14 +128,11 @@ namespace GifEditor
             }
         }
 
-        /// <summary>
-        /// 動画ファイルを選択（入力パスを設定）
-        /// </summary>
         private void OnSelectVideoInputFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "動画ファイル (*.mkv;*.mp4)|*.mkv;*.mp4|すべてのファイル (*.*)|*.*"
+                Filter = "動画ファイル (*.mkv;*.mp4;*.gif)|*.mkv;*.mp4;*.gif|すべてのファイル (*.*)|*.*"
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -157,25 +140,24 @@ namespace GifEditor
                 inputVideoPath = openFileDialog.FileName;
                 VideoInputPath.Text = inputVideoPath;
 
-                // 出力ファイルを自動で設定
                 string directory = Path.GetDirectoryName(inputVideoPath);
                 string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputVideoPath);
 
                 if (inputVideoPath.EndsWith(".mkv", StringComparison.OrdinalIgnoreCase))
                 {
-                    outputVideoPath = Path.Combine(directory, $"{filenameWithoutExt}.mp4"); // MKV → MP4
+                    outputVideoPath = Path.Combine(directory, $"{filenameWithoutExt}.mp4");
                 }
                 else if (inputVideoPath.EndsWith(".mp4", StringComparison.OrdinalIgnoreCase))
                 {
-                    outputVideoPath = Path.Combine(directory, $"{filenameWithoutExt}.gif"); // MP4 → GIF
+                    outputVideoPath = Path.Combine(directory, $"{filenameWithoutExt}.gif");
+                }
+                else if (inputVideoPath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
+                {
+                    outputVideoPath = Path.Combine(directory, $"{filenameWithoutExt}.mp4");
                 }
             }
         }
 
-
-        /// <summary>
-        /// MKV → MP4 変換
-        /// </summary>
         private async void OnConvertMkvToMp4Clicked(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(inputVideoPath) || string.IsNullOrEmpty(outputVideoPath))
@@ -188,9 +170,6 @@ namespace GifEditor
             MessageBox.Show("MKV → MP4 変換が完了しました！");
         }
 
-        /// <summary>
-        /// MP4 → GIF 変換
-        /// </summary>
         private async void OnConvertMp4ToGifClicked(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(inputVideoPath) || string.IsNullOrEmpty(outputVideoPath))
@@ -201,6 +180,29 @@ namespace GifEditor
 
             await VideoService.ConvertMp4ToGif(inputVideoPath, outputVideoPath);
             MessageBox.Show("MP4 → GIF 変換が完了しました！");
+        }
+
+        private async void OnConvertGifToMp4Clicked(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(inputGifPath))
+            {
+                MessageBox.Show("入力GIFファイルが選択されていません。");
+                return;
+            }
+
+            string directory = Path.GetDirectoryName(inputGifPath);
+            string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputGifPath);
+            string newOutputVideoPath = Path.Combine(directory, $"{filenameWithoutExt}.mp4");
+
+            try
+            {
+                await VideoService.ConvertGifToMp4(inputGifPath, newOutputVideoPath);
+                MessageBox.Show("GIF → MP4 変換が完了しました！");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"エラー: {ex.Message}");
+            }
         }
     }
 }

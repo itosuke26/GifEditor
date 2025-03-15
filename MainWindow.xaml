@@ -4,15 +4,12 @@
         Title="GIF編集ツール" Height="600" Width="500">
     <Grid>
         <TabControl>
-            <!-- GIF編集タブ -->
             <TabItem Header="GIF編集">
                 <StackPanel Orientation="Vertical" Margin="10">
-
                     <TextBlock Text="入力GIFファイル:" Margin="5"/>
                     <Button Content="GIFファイル選択" Click="OnSelectGifFile" Margin="5"/>
                     <TextBox x:Name="GifInputPath" Width="300" Margin="5" IsReadOnly="True"/>
 
-                    <!-- フレームレート変更 -->
                     <TextBlock Text="フレームレート (FPS):" />
                     <TextBox x:Name="FrameRateInput" Width="100" Margin="5"/>
 
@@ -35,16 +32,15 @@
                 </StackPanel>
             </TabItem>
 
-            <!-- 動画変換タブ -->
             <TabItem Header="動画変換">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <TextBlock Text="入力動画ファイル:" Margin="5"/>
                     <Button Content="ファイル選択" Click="OnSelectVideoInputFile" Margin="5"/>
                     <TextBox x:Name="VideoInputPath" Width="300" Margin="5" IsReadOnly="True"/>
 
-                    <!-- 動画変換ボタン -->
                     <Button Content="MKV → MP4 変換" Click="OnConvertMkvToMp4Clicked" Margin="5"/>
                     <Button Content="MP4 → GIF 変換" Click="OnConvertMp4ToGifClicked" Margin="5"/>
+                    <Button Content="GIF → MP4 変換" Click="OnConvertGifToMp4Clicked" Margin="5"/>
 
                     <ProgressBar x:Name="VideoProgressBar" Width="300" Height="20" Margin="5" Visibility="Hidden"/>
                 </StackPanel>

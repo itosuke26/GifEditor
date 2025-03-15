@@ -6,9 +6,6 @@ namespace GifEditor.Services
 {
     public static class GifService
     {
-        /// <summary>
-        /// GIFのフレームレートを変更し、カラーパレットの最適化を行う
-        /// </summary>
         public static void OptimizeGif(string inputPath, string outputPath, int frameRate, bool optimizePalette)
         {
             try
@@ -40,9 +37,6 @@ namespace GifEditor.Services
             }
         }
 
-        /// <summary>
-        /// GIFの圧縮（最適化）
-        /// </summary>
         public static void CompressGif(string inputPath, string outputPath)
         {
             try
@@ -61,9 +55,6 @@ namespace GifEditor.Services
             }
         }
 
-        /// <summary>
-        /// GIFの切り抜き（Crop）
-        /// </summary>
         public static void CropGif(string inputPath, string outputPath, int x, int y, int width, int height)
         {
             try
@@ -90,9 +81,6 @@ namespace GifEditor.Services
             }
         }
 
-        /// <summary>
-        /// GIFのサイズ変更
-        /// </summary>
         public static void ResizeGif(string inputPath, string outputPath, int width, int height)
         {
             try
@@ -114,9 +102,6 @@ namespace GifEditor.Services
             }
         }
 
-        /// <summary>
-        /// GIFのサイズを512KB以下に圧縮する
-        /// </summary>
         public static void CompressGifToTargetSize(string inputPath, string outputPath, long targetSizeKB = 512)
         {
             try
