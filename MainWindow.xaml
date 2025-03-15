@@ -16,16 +16,18 @@
                     <CheckBox x:Name="OptimizePaletteCheckBox" Content="カラーパレット最適化" Margin="5"/>
 
                     <Button Content="FPS,カラーパレット最適化" Click="OnOptimizeGifClicked" Margin="5"/>
-                    <Button Content="GIFを最適化" Click="OnCompressGifClicked" Margin="5"/>
-                    <Button Content="GIF圧縮" Click="OnCompressGifClicked" />
+
+                    <Button Content="GIFリサイズ" Click="OnResizeGifClicked" Margin="5"/>
+
+                    <TextBox x:Name="ResizeWidthInput" Width="100" Margin="5"/>
+
+                    <TextBox x:Name="ResizeHeightInput" Width="100" Margin="5"/>
+
+                    <Button Content="GIFサイズ圧縮" Click="OnCompressGifToTargetSizeClicked" Margin="5"/>
+
+                    <TextBox x:Name="TargetSizeInput" Width="100" Margin="5"/>
+
                     <Button Content="GIFを切り抜く" Click="OnCropGifClicked" Margin="5"/>
-
-                    <Button Content="GIFリサイズ" Click="OnResizeGifClicked" />
-                    <TextBox x:Name="ResizeWidthInput" Width="50" />
-                    <TextBox x:Name="ResizeHeightInput" Width="50" />
-                    <Button Content="GIFサイズ圧縮" Click="OnCompressGifToTargetSizeClicked" />
-                    <TextBox x:Name="TargetSizeInput" Width="50" />
-
                     <TextBlock Text="X 座標:" Margin="5"/>
                     <TextBox x:Name="XInput" Width="100" Margin="5"/>
                     <TextBlock Text="Y 座標:" Margin="5"/>
@@ -42,8 +44,12 @@
             <TabItem Header="動画変換">
                 <StackPanel Orientation="Vertical" Margin="10">
                     <TextBlock Text="入力動画ファイル:" Margin="5"/>
-                    <Button Content="ファイル選択" Click="OnSelectVideoInputFile" Margin="5"/>
+                    <Button Content="動画ファイル選択" Click="OnSelectVideoInputFile" Margin="5"/>
                     <TextBox x:Name="VideoInputPath" Width="300" Margin="5" IsReadOnly="True"/>
+
+                    <TextBlock Text="入力GIFファイル:" Margin="5"/>
+                    <Button Content="GIFファイル選択" Click="OnSelectGifForVideo" Margin="5"/>
+                    <TextBox x:Name="GifInputPathForVideo" Width="300" Margin="5" IsReadOnly="True"/>
 
                     <Button Content="MKV → MP4 変換" Click="OnConvertMkvToMp4Clicked" Margin="5"/>
                     <Button Content="MP4 → GIF 変換" Click="OnConvertMp4ToGifClicked" Margin="5"/>
