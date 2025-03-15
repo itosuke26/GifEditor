@@ -52,6 +52,31 @@
                     <ProgressBar x:Name="VideoProgressBar" Width="300" Height="20" Margin="5" Visibility="Hidden"/>
                 </StackPanel>
             </TabItem>
+
+            <TabItem Header="画像処理">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="入力GIFファイル:" Margin="5"/>
+                    <Button Content="GIFファイル選択" Click="OnSelectImageServiceGifFile" Margin="5"/>
+                    <TextBox x:Name="ImageServiceGifInputPath" Width="300" Margin="5" IsReadOnly="True"/>
+
+                    <TextBlock Text="リサイズ幅:" Margin="5"/>
+                    <TextBox x:Name="ImageServiceResizeWidthInput" Width="100" Margin="5"/>
+
+                    <TextBlock Text="リサイズ高さ:" Margin="5"/>
+                    <TextBox x:Name="ImageServiceResizeHeightInput" Width="100" Margin="5"/>
+
+                    <Button Content="GIFリサイズ" Click="OnImageServiceResizeGifClicked" Margin="5"/>
+
+                    <TextBlock Text="出力画像形式:" Margin="5"/>
+                    <ComboBox x:Name="ImageServiceOutputFormatComboBox" Width="150" Margin="5">
+                        <ComboBoxItem Content="PNG"/>
+                        <ComboBoxItem Content="JPEG"/>
+                        <ComboBoxItem Content="BMP"/>
+                    </ComboBox>
+
+                    <Button Content="最初のフレームを変換" Click="OnImageServiceConvertGifToImageClicked" Margin="5"/>
+                </StackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

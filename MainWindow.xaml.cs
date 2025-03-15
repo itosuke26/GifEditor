@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 using GifEditor.Services;
+using ImageMagick;
+using System.Windows.Controls;
 
 namespace GifEditor
 {
@@ -13,7 +15,8 @@ namespace GifEditor
         private string outputGifPath = "";
         private string inputVideoPath = "";
         private string outputVideoPath = "";
-
+        private string imageServiceInputGifPath = "";
+        private string imageServiceOutputImagePath = "";
         public MainWindow()
         {
             InitializeComponent();
@@ -231,6 +234,84 @@ namespace GifEditor
             {
                 await VideoService.ConvertGifToMp4(inputGifPath, newOutputVideoPath);
                 MessageBox.Show("GIF → MP4 変換が完了しました！");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"エラー: {ex.Message}");
+            }
+        }
+        private void OnSelectImageServiceGifFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "GIFファイル (*.gif)|*.gif|すべてのファイル (*.*)|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                imageServiceInputGifPath = openFileDialog.FileName;
+                ImageServiceGifInputPath.Text = imageServiceInputGifPath;
+                string directory = Path.GetDirectoryName(imageServiceInputGifPath);
+                string filenameWithoutExt = Path.GetFileNameWithoutExtension(imageServiceInputGifPath);
+                imageServiceOutputImagePath = Path.Combine(directory, $"{filenameWithoutExt}.png"); // デフォルトの出力形式
+            }
+        }
+
+        private void OnImageServiceResizeGifClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(imageServiceInputGifPath))
+                {
+                    MessageBox.Show("入力GIFファイルを選択してください。");
+                    return;
+                }
+
+                if (!uint.TryParse(ImageServiceResizeWidthInput.Text, out uint width) ||
+                    !uint.TryParse(ImageServiceResizeHeightInput.Text, out uint height))
+                {
+                    MessageBox.Show("無効なリサイズサイズです。正しい数値を入力してください。");
+                    return;
+                }
+
+                ImageService.ResizeGif(imageServiceInputGifPath, imageServiceOutputImagePath, width, height);
+                MessageBox.Show("GIFのリサイズが完了しました！");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"エラー: {ex.Message}");
+            }
+        }
+
+        private void OnImageServiceConvertGifToImageClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(imageServiceInputGifPath))
+                {
+                    MessageBox.Show("入力GIFファイルを選択してください。");
+                    return;
+                }
+
+                MagickFormat format = MagickFormat.Png; // デフォルト
+                if (ImageServiceOutputFormatComboBox.SelectedItem is ComboBoxItem selectedItem)
+                {
+                    if (selectedItem.Content.ToString() == "JPEG")
+                    {
+                        format = MagickFormat.Jpeg;
+                    }
+                    else if (selectedItem.Content.ToString() == "BMP")
+                    {
+                        format = MagickFormat.Bmp;
+                    }
+                }
+
+                string directory = Path.GetDirectoryName(imageServiceInputGifPath);
+                string filenameWithoutExt = Path.GetFileNameWithoutExtension(imageServiceInputGifPath);
+                string outputImagePath = Path.Combine(directory, $"{filenameWithoutExt}.{format.ToString().ToLower()}");
+
+                ImageService.ConvertGifToImage(imageServiceInputGifPath, outputImagePath, format);
+                MessageBox.Show("最初のフレームの変換が完了しました！");
             }
             catch (Exception ex)
             {
