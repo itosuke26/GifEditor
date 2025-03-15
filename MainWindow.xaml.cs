@@ -29,11 +29,9 @@ namespace GifEditor
             if (openFileDialog.ShowDialog() == true)
             {
                 inputGifPath = openFileDialog.FileName;
-                GifInputPath.Text = inputGifPath;
-
                 string directory = Path.GetDirectoryName(inputGifPath);
                 string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputGifPath);
-                outputGifPath = Path.Combine(directory, $"{filenameWithoutExt}_optimized.gif");
+                outputGifPath = Path.Combine(directory, $"{filenameWithoutExt}_compressed.gif");
             }
         }
 
@@ -74,7 +72,32 @@ namespace GifEditor
                 }
 
                 GifService.CompressGif(inputGifPath, outputGifPath);
-                MessageBox.Show("GIFの最適化が完了しました！");
+                MessageBox.Show("GIFの圧縮が完了しました！");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"エラー: {ex.Message}");
+            }
+        }
+
+        private void OnResizeGifClicked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(inputGifPath) || string.IsNullOrEmpty(outputGifPath))
+                {
+                    MessageBox.Show("入力または出力のパスが設定されていません。");
+                    return;
+                }
+
+                if (!int.TryParse(ResizeWidthInput.Text, out int width) || !int.TryParse(ResizeHeightInput.Text, out int height))
+                {
+                    MessageBox.Show("無効なリサイズサイズです。正しい数値を入力してください。");
+                    return;
+                }
+
+                GifService.ResizeGif(inputGifPath, outputGifPath, width, height);
+                MessageBox.Show("GIFのリサイズが完了しました！");
             }
             catch (Exception ex)
             {
@@ -84,18 +107,26 @@ namespace GifEditor
 
         private void OnCompressGifToTargetSizeClicked(object sender, RoutedEventArgs e)
         {
-            string inputPath = GifInputPath.Text;
-            string outputPath = Path.Combine(Path.GetDirectoryName(inputPath), "compressed_output.gif");
-            long targetSizeKB = 512;
-
             try
             {
-                GifService.CompressGifToTargetSize(inputPath, outputPath, targetSizeKB);
-                MessageBox.Show("GIFの圧縮が完了しました！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (string.IsNullOrEmpty(inputGifPath) || string.IsNullOrEmpty(outputGifPath))
+                {
+                    MessageBox.Show("入力または出力のパスが設定されていません。");
+                    return;
+                }
+
+                if (!long.TryParse(TargetSizeInput.Text, out long targetSizeKB))
+                {
+                    MessageBox.Show("無効な目標サイズです。正しい数値を入力してください。");
+                    return;
+                }
+
+                GifService.CompressGifToTargetSize(inputGifPath, outputGifPath, targetSizeKB);
+                MessageBox.Show("GIFのサイズ圧縮が完了しました！");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"エラー: {ex.Message}", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"エラー: {ex.Message}");
             }
         }
 
@@ -138,8 +169,6 @@ namespace GifEditor
             if (openFileDialog.ShowDialog() == true)
             {
                 inputVideoPath = openFileDialog.FileName;
-                VideoInputPath.Text = inputVideoPath;
-
                 string directory = Path.GetDirectoryName(inputVideoPath);
                 string filenameWithoutExt = Path.GetFileNameWithoutExtension(inputVideoPath);
 
